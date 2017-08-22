@@ -4,11 +4,25 @@
         .controller("TodoListController",todoListController);
 
     function todoListController($scope) {
-        $scope.todo = {title:"initial title"};
+        $scope.inputTodo = {title:"initial title"};
+        $scope.todos = [];
+        // mapping view to local fn
         $scope.addTodo = addTodo;
+        $scope.removeTodo = removeTodo;
 
-        function addTodo(todo) {
-            console.log(todo)
+        function addTodo(inputTodo) {
+
+            var newTodo = {
+                title:inputTodo.title
+            }
+
+            console.log(newTodo);
+
+            $scope.todos.push(newTodo);
+        }
+
+        function removeTodo(todo) {
+            $scope.todos.splice(todo,1);
         }
     }
 })();

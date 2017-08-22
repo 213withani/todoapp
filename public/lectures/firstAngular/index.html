@@ -11,10 +11,13 @@
     <div class="container">
      <h1>Todo List App</h1>
         <div ng-controller="TodoListController">
-            <input ng-model="todo.title" class="form-control"/>
-            <button ng-click="addTodo(todo)" class="btn btn-block btn-primary">Add Todo</button>
+            <input ng-model="inputTodo.title" class="form-control"/>
+            <button ng-click="addTodo(inputTodo);inputTodo.title=''" class="btn btn-block btn-primary">Add Todo</button>
+            {{todos}}
             <ul class="list-group">
-                <li class="list-group-item">Pick up kids</li>
+                <li ng-repeat="todo in todos" class="list-group-item">{{todo.title}}
+                    <span ng-click="removeTodo(todo)" class="pull-right glyphicon glyphicon-remove"
+                </li>
             </ul>
         </div>
     </div>
