@@ -16,7 +16,7 @@
             {{todos}}
             <ul class="list-group">
                 <li ng-repeat="todo in todos" class="list-group-item">{{todo.title}}
-                    <span ng-click="removeTodo(todo)" class="pull-right glyphicon glyphicon-remove"
+                    <span ng-click="removeTodo($index)" class="pull-right glyphicon glyphicon-remove"
                 </li>
             </ul>
         </div>
