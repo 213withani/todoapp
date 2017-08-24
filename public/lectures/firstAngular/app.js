@@ -3,14 +3,27 @@
         .module("TodoApp",[])
         .controller("TodoListController",todoListController);
 
-    function todoListController($scope) {
+    function todoListController($scope,$http) {
         $scope.inputTodo = {title:"initial title",details:"initial details"};
-        $scope.todos = [];
+
         // mapping view to local fn
         $scope.addTodo = addTodo;
         $scope.removeTodo = removeTodo;
         $scope.selectTodo=selectTodo;
         $scope.updateTodo=updateTodo;
+
+        function init() {
+            findAllTodos();
+        }
+        init();
+
+        function findAllTodos() {
+            $http.get('/api/todo')
+                .then(function (response) {
+                    console.log(response);
+                    $scope.todos = response.data;
+                });
+        }
 
         function addTodo(inputTodo) {
 
@@ -28,7 +41,8 @@
         function removeTodo(todo) {
             //calcuate index since todo is an obj and splice needs an index
             var index=$scope.todos.indexOf(todo)
-            $scope.todos.splice(index,1);
+            $http.delete('/api/todo/'+index)
+                .then(findAllTodos());
         }
 
         function selectTodo(index) {
