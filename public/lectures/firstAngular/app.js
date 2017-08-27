@@ -19,39 +19,38 @@
 
         function findAllTodos() {
             $http.get('/api/todo')
-                .then(function (response) {
-                    console.log(response);
-                    $scope.todos = response.data;
+                .then(function (todos) {
+                    $scope.todos = todos.data;
                 });
         }
 
         function addTodo(inputTodo) {
 
-            // var newTodo = {
-            //     title:inputTodo.title
-            // }
-
-            var newTodo = angular.copy(inputTodo)
-            console.log(newTodo);
-
-            $scope.todos.push(newTodo);
+            var newTodo = angular.copy(inputTodo);
+            $http.post('/api/todo',newTodo);
+            findAllTodos();
         }
 
         // todo is the loop index from the view
         function removeTodo(todo) {
-            //calcuate index since todo is an obj and splice needs an index
-            var index=$scope.todos.indexOf(todo)
-            $http.delete('/api/todo/'+index)
-                .then(findAllTodos());
+
+            $http.delete('/api/todo/'+todo._id)
+                .then(findAllTodos);
         }
 
-        function selectTodo(index) {
-            $scope.inputTodo=angular.copy($scope.todos[index]);
-            $scope.selectedIndex=index;
+        function selectTodo(todoId) {
+            $http.get("/api/todo/"+todoId)
+                .then(function (todo){
+                console.log(todo);
+                    $scope.inputTodo=todo.data;
+                });
         }
 
         function updateTodo(todo) {
-            $scope.todos[$scope.selectedIndex]=angular.copy(todo);
+            //$scope.todos[$scope.selectedIndex]=angular.copy(todo);
+            $http
+                .put("/api/todo/"+todo._id, todo)
+                .then(findAllTodos);
         }
     }
 })();
