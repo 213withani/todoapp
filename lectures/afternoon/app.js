@@ -63,7 +63,7 @@ module.exports=function (app,TodoModel) {
         TodoModel
             .update({_id:todoId}, {
                 title:todo.title,
-                body: todo.details
+                details: todo.details
             })
             .then(function (status) {
                 res.sendStatus(200);
